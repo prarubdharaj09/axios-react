@@ -1,15 +1,30 @@
 import React , { Component } from "react";
+import axios from 'axios';
 
-class user extends Component{
-    render(){
-        axios.get('https://jsonplaceholder.typicode.com/users')
-        .then(function(response){
-            console.log('data drive', response)
-            
+class User extends Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            imageUrl:""
+        }
+    }
+    
+    componentDidMount(){
+        axios.get('https://dog.ceo/api/breeds/image/random')
+        .then(response =>{
+            this.setState({ imageUrl:response.data.message })
         })
-        return(
-            <h1>Data available </h1>
+        .catch(error => {
+            console.log(error)
+        })
+    }
+    render(){
+        const { imageUrl } = this.state;
+
+        return (
+            <img src={imageUrl} alt="dog" />
         )
     }
 }
-export default user;
+export default User;
